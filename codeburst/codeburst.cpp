@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <set>
 #include <vector>
 
 using namespace std;
@@ -31,6 +33,11 @@ void bubbleSort(vector<int> &vec) {
 
 void printVector(vector<int> &vec) {
   for(int i : vec) cout << i << ' ';
+  cout << endl;
+}
+
+void printVector(vector<double> &vec) {
+  for(double i : vec) cout << i << ' ';
   cout << endl;
 }
 
@@ -140,17 +147,118 @@ void testProblem5() {
 // Problem: 6
 // Name: Bucket Sort
 
-void _bucketSortHelper(vector<double> &vec, double origin, double unit) {
-  vector<vector<double>> bucket(10);
-  for(int i : vec) {
-    bucket[(int) ((i - origin) / unit)].push_back(i);
+void bucketSort(vector<double> &vec) {
+  double origin = 0, unit = 0.1;
+  vector<vector<double>> buckets(10);
+  
+  for(double i : vec)
+    buckets[(int) (i / unit)].push_back(i);
+  
+  int pos = 0;
+  for(auto b : buckets) {
+    sort(b.begin(), b.end());
+    for(double i : b)
+      vec[pos++] = i;
   }
 }
 
-void bucketSort(vector<double> &vec) {
-  _bucketSortHelper(vec, 0, 0.1);
+void testProblem6() {
+  vector<double> vec{0.13,0.23,0.94,0.53,0.25,0.03,0.85};
+  printVector(vec);
+  bucketSort(vec);
+  printVector(vec);
+}
+
+// Problem: 7
+// Name: Counting Sort
+
+void countingSort(vector<int> &vec) {
+  vector<int> count(10);
+  for(int i : vec) count[i]++;
+  int pos = 0;
+  for(int i = 0; i < 10; i++)
+    for(int j = 0; j < count[i]; j++)
+      vec[pos++] = i;
+}
+
+void testProblem7() {
+  vector<int> vec{1,3,3,6,2,6,1,1,9,9,3,2,5,3,0};
+  printVector(vec);
+  countingSort(vec);
+  printVector(vec);
+}
+
+// Problem: 8
+// Name: Remove Duplicates
+
+void removeDuplicates(vector<int> &vec) {
+  set<int> history;
+  vector<int>::iterator pos = vec.begin();
+  for(vector<int>::iterator it = vec.begin(); it != vec.end(); it++) {
+    if(history.find(*it) == history.end()) {
+      history.insert(*it);
+      *pos = *it;
+      pos++;
+    }
+  }
+
+  while(pos != vec.end())
+    *(pos++) = 0;
+}
+
+void testProblem8() {
+  vector<int> vec{1,3,3,6,2,6,1,1,9,9,3,2,5,3,0,4,1};
+  printVector(vec);
+  removeDuplicates(vec);
+  printVector(vec);
+}
+
+// Problem: 9
+// Name: Reverse Array
+
+void reverseArray(vector<int> &vec) {
+  int half = vec.size() / 2;
+  for(int x = 0; x < half; x++) {
+    swap(x, vec.size() - x - 1, vec);
+  }
+}
+
+void testProblem9() {
+  vector<int> vec{0,1,2,3,4,5,6,7,8,9};
+  printVector(vec);
+  reverseArray(vec);
+  printVector(vec);
+}
+
+// Problem: 10
+// Name: Remove Duplicates Without Library
+
+void removeDuplicates2(vector<int> &vec) {
+  int pos = 1;
+  bool flag;
+  for(int i = 1; i < vec.size(); i++) {
+    
+    flag = true; // check if elem is dupe
+    for(int j = 0; j < i; j++) {
+      if(vec[i] == vec[j]) {
+        flag = false;
+        break;
+      }
+    }
+
+    if(flag) vec[pos++] = vec[i];
+  }
+
+  while(pos < vec.size()) vec[pos++] = 0;
+}
+
+void testProblem10() {
+  vector<int> vec{1,3,3,6,2,6,1,1,9,9,3,2,5,3,0,4,1};
+  printVector(vec);
+  removeDuplicates2(vec);
+  printVector(vec);
 }
 
 int main() {
-  testProblem5();
+  testProblem10();
 }
