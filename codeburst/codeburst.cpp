@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <queue>
 #include <set>
 #include <vector>
 
@@ -333,7 +334,33 @@ void testProblem13() {
 // Name: Vending Machine
 
 void vendingMachine() {
-  // TODO
+  vector<pair<string, int>> inventory{
+    {"chips", 5},
+    {"pretzels", 3},
+    {"water", 10},
+    {"gummy bears", 7}
+  };
+
+  int choice;
+
+  do {
+    cout << "Available Items: " << endl;
+    for(int i = 0; i < inventory.size(); i++)
+      cout << i << ": " << inventory[i].first << " x" << inventory[i].second << endl;
+    cout << endl << "What would you like? (-1 to exit) ";
+    cin >> choice;
+
+    if(choice >= 0 && choice < inventory.size()) {
+      if(inventory[choice].second <= 0) {
+        cout << "Out of stock!" << endl;
+        continue;
+      }
+      cout << endl << "Here is one " << inventory[choice].first << "!" << endl << endl;
+      inventory[choice].second--;
+    }
+  } while(choice != -1);
+
+  cout << "Thank you for using this vending machine" << endl;
 }
 
 void testProblem14() {
@@ -385,7 +412,30 @@ void testProblem16() {
 // Iterative Quicksort
 
 void iterQuicksort(vector<int>& vec) {
-  //TODO
+  queue<pair<int, int>> worker;
+  pair<int, int> task;
+  int pivot, low, high;
+  worker.emplace(0, vec.size() - 1);
+
+  while (worker.size() != 0) {
+    task = worker.front(); worker.pop();
+    if (task.first >= task.second) continue; // 1 or less element, already sorted
+
+    pivot = vec[task.first];
+    low = task.first; high = task.second;
+
+    for (int i = task.first + 1; i <= high; i++) {
+      if (vec[i] < pivot) {
+        swap(vec[low++], vec[i]);
+      } else {
+        swap(vec[high--], vec[i]);
+        i--;
+      }
+    }
+
+    worker.emplace(task.first, low - 1);
+    worker.emplace(high + 1, task.second);
+  }
 }
 
 void testProblem19() {
@@ -419,5 +469,5 @@ void testProblem20() {
 }
 
 int main() {
-  testProblem19();
+  testProblem14();
 }
