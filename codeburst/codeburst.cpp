@@ -345,20 +345,20 @@ void vendingMachine() {
 
   do {
     cout << "Available Items: " << endl;
-    for(int i = 0; i < inventory.size(); i++)
+    for (int i = 0; i < inventory.size(); i++)
       cout << i << ": " << inventory[i].first << " x" << inventory[i].second << endl;
     cout << endl << "What would you like? (-1 to exit) ";
     cin >> choice;
 
-    if(choice >= 0 && choice < inventory.size()) {
-      if(inventory[choice].second <= 0) {
+    if (choice >= 0 && choice < inventory.size()) {
+      if (inventory[choice].second <= 0) {
         cout << "Out of stock!" << endl;
         continue;
       }
       cout << endl << "Here is one " << inventory[choice].first << "!" << endl << endl;
       inventory[choice].second--;
     }
-  } while(choice != -1);
+  } while (choice != -1);
 
   cout << "Thank you for using this vending machine" << endl;
 }
@@ -468,6 +468,100 @@ void testProblem20() {
   extremes(vec);
 }
 
+// Problem: 21
+// Name: LinkedList Inplace Reverse
+
+template <typename T>
+class node {
+public:
+  node() {}
+  node* child = NULL;
+  T value;
+};
+
+template <typename T>
+node<T>* vecToLinkedList(vector<T>& vec) {
+  node<T>* root = new node<T>(), * pos = root, * tmp;
+  for (auto i : vec) {
+    tmp = new node<T>();
+    tmp->value = i;
+    pos->child = tmp;
+    pos = pos->child;
+  }
+
+  return root->child;
+}
+
+void printLinkedList(node<int>* root) {
+  while (root != NULL) {
+    cout << root->value << " ";
+    root = root->child;
+  }
+  cout << endl;
+}
+
+node<int>* reverseLinkedList(node<int>* root) {
+  node<int>* a = root, * b = root->child, * c;
+  root->child = NULL;
+  while (b != NULL) {
+    c = b->child;
+    b->child = a;
+    a = b; b = c;
+  }
+
+  return a;
+}
+
+void testProblem21() {
+  vector<int> vec{ 1,2,3,4,5,6,7 };
+  node<int>* root = vecToLinkedList(vec);
+  printLinkedList(root);
+  root = reverseLinkedList(root);
+  printLinkedList(root);
+}
+
+// Problem: 22
+// Name: LinkedList insert
+
+node<int>* insert(int num, int pos, node<int>* root) {
+  node<int>* a = root, * tmp = new node<int>(); tmp->value = num;
+  if (pos == 0) {
+    tmp->child = root;
+    return tmp;
+  }
+
+  for (int x = 0; x < pos - 2; x++) a = a->child;
+  tmp->child = a->child;
+  a->child = tmp;
+
+  return root;
+}
+
+void testProblem22() {
+  vector<int> vec{ 1,2,3,4,5,6,7 };
+  node<int>* root = vecToLinkedList(vec);
+  printLinkedList(root);
+  root = insert(10, 0, root);
+  root = insert(20, 1, root);
+  root = insert(30, 5, root);
+  printLinkedList(root);
+}
+
+//Problem: 23
+// Name: Sorted LinkedList
+
+node<int>* sortLinkedList(node<int>* root) {
+  return root; //TODO
+}
+
+void testProblem23() {
+  vector<int> vec{ 1,5,2,7,6,4,3};
+  node<int>* root = vecToLinkedList(vec);
+  printLinkedList(root);
+  root = sortLinkedList(root);
+  printLinkedList(root);
+}
+
 int main() {
-  testProblem14();
+  testProblem23();
 }
