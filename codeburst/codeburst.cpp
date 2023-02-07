@@ -569,11 +569,11 @@ void testProblem22() {
 
 void printPairSums(vector<int>& vec, int sum) {
   map<int, int> res;
-  for(int i : vec) {
-    if(res.find(i) != res.end()) {
+  for (int i : vec) {
+    if (res.find(i) != res.end()) {
       cout << "(" << i << ", " << res[i] << ")" << endl;
     }
-    res[sum-i] = i;
+    res[sum - i] = i;
   }
 }
 
@@ -588,13 +588,13 @@ void testProblem24() {
 // Problem: 25
 // Name: Insertion Sort
 
-void insertionSort(vector<int> &vec) {
+void insertionSort(vector<int>& vec) {
   int min, minPos;
-  for(int i = 0; i < vec.size(); i++) {
+  for (int i = 0; i < vec.size(); i++) {
     min = vec[i];
     minPos = i;
-    for(int j = i + 1; j < vec.size(); j++) {
-      if(min > vec[j]) {
+    for (int j = i + 1; j < vec.size(); j++) {
+      if (min > vec[j]) {
         min = vec[j];
         minPos = j;
       }
@@ -630,6 +630,61 @@ void testProblem25() {
 // Name: Inplace Reverse String
 // **redundant**
 
+// Problem: 33
+// Name: String Permuatations
+
+void _strPerm(string res, string str) {
+  if (str.empty()) {
+    cout << res << endl;
+    return;
+  }
+  for (int i = 0; i < str.size(); i++) {
+    _strPerm(res + str[i], str.substr(0, i) + str.substr(i + 1, str.size()));
+  }
+}
+
+void strPerm(string str) {
+  _strPerm("", str);
+}
+
+void testProblem33() {
+  string word = "mulch";
+  cout << "Word: " << word << endl;
+  strPerm(word);
+}
+
+// Problem: 36
+// Name: Longest Substring (without repeating chars)
+
+int longestSubstr(string str) {
+  int res = 0, count = 0;
+  char lastChar = '\0';
+
+  for(char c : str) {
+     if(c == lastChar) {
+      res = max(res, count);
+      count = 0;
+     }
+     count++;
+     lastChar = c;
+  }
+
+  res = max(res, count);
+
+  return res;
+}
+
+void testProblem36() {
+  string word = "appraisee";
+  cout << "Word: " << word << endl;
+  cout << longestSubstr(word) << endl;
+}
+
+// Problem: 37
+// Name: Pallindrone Substring
+
+
+
 int main() {
-  testProblem25();
+  testProblem36();
 }
