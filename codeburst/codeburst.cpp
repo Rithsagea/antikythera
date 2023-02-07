@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <map>
 #include <queue>
 #include <set>
 #include <vector>
@@ -547,21 +548,88 @@ void testProblem22() {
   printLinkedList(root);
 }
 
-//Problem: 23
+// Problem: 23
 // Name: Sorted LinkedList
+// **redundant, insertion / merge sort**
 
-node<int>* sortLinkedList(node<int>* root) {
-  return root; //TODO
+// node<int>* sortLinkedList(node<int>* root) {
+//   return root;
+// }
+
+// void testProblem23() {
+//   vector<int> vec{ 1,5,2,7,6,4,3};
+//   node<int>* root = vecToLinkedList(vec);
+//   printLinkedList(root);
+//   root = sortLinkedList(root);
+//   printLinkedList(root);
+// }
+
+// Problem: 24
+// Name: Find Pair Sums
+
+void printPairSums(vector<int>& vec, int sum) {
+  map<int, int> res;
+  for(int i : vec) {
+    if(res.find(i) != res.end()) {
+      cout << "(" << i << ", " << res[i] << ")" << endl;
+    }
+    res[sum-i] = i;
+  }
 }
 
-void testProblem23() {
-  vector<int> vec{ 1,5,2,7,6,4,3};
-  node<int>* root = vecToLinkedList(vec);
-  printLinkedList(root);
-  root = sortLinkedList(root);
-  printLinkedList(root);
+void testProblem24() {
+  vector<int> vec{ 1,3,2,8,6,4,11,14,7,2,10 };
+  int sum = 12;
+  cout << "Sum: " << sum << endl;
+  printVector(vec);
+  printPairSums(vec, sum);
 }
+
+// Problem: 25
+// Name: Insertion Sort
+
+void insertionSort(vector<int> &vec) {
+  int min, minPos;
+  for(int i = 0; i < vec.size(); i++) {
+    min = vec[i];
+    minPos = i;
+    for(int j = i + 1; j < vec.size(); j++) {
+      if(min > vec[j]) {
+        min = vec[j];
+        minPos = j;
+      }
+    }
+    swap(vec[i], vec[minPos]);
+  }
+}
+
+void testProblem25() {
+  vector<int> vec{ 11,32,64,35,85,76,38,82,10,93,82,13,75 };
+  printVector(vec);
+  insertionSort(vec);
+  printVector(vec);
+}
+
+// Problem: 26
+// Name: Remove Duplicates
+// **redundant**
+
+// Problem: 27
+// Name: Remove Duplicate Characters
+// **redundant**
+
+// Problem: 28
+// Name: Max Occuring Character
+// ** redundant
+
+// Problem: 29
+// Name: Inplace Quicksort
+// **redundant**
+
+// Problem: 30
+// Name: Inplace Reverse String
+// **redundant**
 
 int main() {
-  testProblem23();
+  testProblem25();
 }
