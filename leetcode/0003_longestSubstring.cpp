@@ -1,5 +1,13 @@
 #include "base.hpp"
 
+/*
+iterate through entire string's characters
+  if character has been seen
+    remove characters from "start" until character is no longer seen
+  add character to seen characters
+  update longest substring length
+*/
+
 class Solution {
 public:
   int lengthOfLongestSubstring(string s) {
